@@ -1,0 +1,16 @@
+*.png
+*.jpg
+*.dat
+*.ttf
+*.sqlite*
+case/
+*.pyc
+recolor/*.json
+recolor/*.png
+recolor/*.bak
+recolor/*.dat
+recolor/*.pyc
+recolor/*.txt
+
+colorSuggest/*.pyc
+

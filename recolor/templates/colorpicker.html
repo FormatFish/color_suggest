@@ -1,0 +1,130 @@
+<html>
+          <head>
+            <script type="text/javascript" src="colorpicker.js"></script>
+            <link rel="stylesheet" type="text/css" href="style2.css">
+            
+          </head>
+          <body>
+          <input type="hide" id="palettes" name="palettes">
+          
+          <div id="main_wrapper" class="">
+		<div class="row colors" id="colors">
+			<div class="col-md-15 color_wrapper">
+				<div id="color1" class="color" style="background-color: #1455b7" data-id="0" data-color="#1455b7" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			<div class="col-md-15 color_wrapper">
+				<div id="color2" class="color" style="background-color: #5a84a7" data-id="1" data-color="#5a84a7" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			<div class="col-md-15 color_wrapper">
+				<div id="color3" class="color" style="background-color: #3d86b0" data-id="2" data-color="#3d86b0" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			<div class="col-md-15 color_wrapper">
+				<div id="color4" class="color" style="background-color: #b1e1c7" data-id="3" data-color="#b1e1c7" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			<div class="col-md-15 color_wrapper">
+				<div id="color5" class="color" style="background-color: #e6b04c" data-id="4" data-color="#e6b04c" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			
+		</div>
+	</div>
+       
+            <div class="picker" id="picker1"></div>
+            <div class="slider" id="slider1"></div>
+
+            <div class="picker" id="picker2"></div>
+            <div class="slider" id="slider2"></div>
+
+            <div class="picker" id="picker3"></div>
+            <div class="slider" id="slider3"></div>
+
+            <div class="picker" id="picker4"></div>
+            <div class="slider" id="slider4"></div>
+
+            <div class="picker" id="picker5"></div>
+            <div class="slider" id="slider5"></div>
+
+            <script type="text/javascript">
+            
+              ColorPicker(
+
+                document.getElementById('slider1'),
+                document.getElementById('picker1'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color1').style.backgroundColor = hex;        // #HEX
+                });
+
+              ColorPicker(
+
+                document.getElementById('slider2'),
+                document.getElementById('picker2'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color2').style.backgroundColor = hex;        // #HEX
+                });
+
+              ColorPicker(
+
+                document.getElementById('slider3'),
+                document.getElementById('picker3'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color3').style.backgroundColor = hex;        // #HEX
+                });
+
+              ColorPicker(
+
+                document.getElementById('slider4'),
+                document.getElementById('picker4'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color4').style.backgroundColor = hex;        // #HEX
+                });
+
+              ColorPicker(
+
+                document.getElementById('slider5'),
+                document.getElementById('picker5'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color5').style.backgroundColor = hex;        // #HEX
+                });
+              // console.log('palettes' ,palettes)
+              // document.getElementById('palettes').value = palettes;
+
+            </script>
+            <script type="text/javascript">
+          var s = [];
+          for(var i = 1 ; i < 6 ; i++)
+          {
+          	console.log('color'+i)
+          	var rgb = document.getElementById('color'+i).style.backgroundColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+          	s.push([rgb[1] , rgb[2] , rgb[3]]);
+          }
+          	document.getElementById('palettes').value = s;
+          </script>
+            
+
+           
+          </body>
+        </html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>色彩重构</title>
+	<script type="text/javascript" src="/static/js/colorpicker.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/style2.css">
+</head>
+<body>
+<form enctype="multipart/form-data"  name="form2" method="POST" action="/recolor/">
+{% csrf_token %}
+	案例：<select id="case" name="case" onload="caseSelect()" onchange="caseSelect()" onclick="caseSelect()">
+		<option value="0062_1158">case 1</option>
+		<option value="0064_1272">case 2</option>
+		<option value="0064_287">case 3</option>
+		<option value="0073_1650">case 4</option>
+		<option value="0074_334">case 5</option>
+		<option value="0062_1166">case 6</option>
+		<option value="0064_1274">case 7</option>
+		<option value="0065_288">case 8</option>
+		<option value="0073_1760">case 9</option>
+		<option value="0075_1667">case 10</option>
+	</select><br>
+
+<script type="text/javascript">
+	function caseSelect()
+	{
+		var img_name = document.getElementById('case').value;
+		str = "<img src='/static/img/" + img_name +".png'>"
+		document.getElementById('img').innerHTML = str
+	}
+	
+</script>
+原图:<div id="img"></div><br>
+<h2>score:{{ orgin_score }}</h2>
+<!-- 	<script type="text/javascript">
+	function caseSelect(){
+		var type = document.getElementById('case').value;
+		type = parseInt(type);
+
+		if(type == 1)
+		{
+			document.getElementById('title').value = "Hello";
+			document.getElementById('subtitle').value = `Hello\r\nworld`;
+			document.getElementById('w').value = 300;
+			document.getElementById('h').value = 250;
+			document.getElementById('img').innerHTML="<img src='/static/img/case_image_1.png'>";
+		}
+		else if(type = 2)
+		{
+			document.getElementById('title').value = "Alibaba";
+			document.getElementById('subtitle').value = 'physical\ntime machine';
+			document.getElementById('w').value = 600;
+			document.getElementById('h').value = 800;	
+			document.getElementById('img').innerHTML="<img src='/static/img/case_image_2.png'>";
+		}
+	}
+	</script> -->
+	<!-- 标题<textarea id="title" name="title" rows="1" cols="20"></textarea>
+	标题字体<select name="title_font">
+		<option value="1">微软雅黑</option>
+	</select>
+	<br>
+	说明文字<textarea id="subtitle" name="subtitle" name="subtitle" rows="5" cols="20"></textarea>
+	说明文字字体<select name="subtitle_font">
+		<option value="1">微软雅黑</option>
+	</select>
+	<br>
+	产品图:<div id="img"></div><br>
+	背景图<input type="file" name="background">
+	背景图类型<select name="background_type">
+		<option value="0">纯色</option>
+		<option value="1">双色</option>
+		<option value="2">渐变</option>
+		<option value="3">复杂</option>
+	</select><br>
+	宽：<input type="text" id="w" name="w" ><br>
+	高：<input type="text" id="h" name="h"> -->
+	色盘推荐方法:<select id="paletteGen" name="paletteGen">
+		<option value="0">colormind api</option>
+		<option value="1">主题分析</option>
+	</select><br>
+	图片渲染方法：<select id="render" name="render">
+		<option value="0">palette-based recolor</option>
+		<option value="1">linear mapping recolor</option>
+	</select><br>
+
+	是否选择评价:<input type="checkbox" name="iseva"/><br>
+	<input type="submit" name="submit">
+</form>
+<br>
+
+{%if flag %}
+<h2>产品图色盘</h2>
+<img src="/static/img/elem_palette.jpg">
+<h2>当前推荐色盘</h2>
+<img src="/static/img/palette.jpg"><br>
+{%if flag%}
+色盘评分: <h2>{{ score }}</h2>
+{%endif%}
+<h2>配色</h2>
+	{%if iseval%}
+	{% for item , score in pics %}
+	<h2>score:{{ score }}</h2>
+	<img src="/static/img/{{ item }}">
+	<hr>
+	{% endfor %}
+	{%else%}
+	{% for item in pics %}
+	<img src="/static/img/{{ item }}">
+	<hr>
+	{% endfor %}
+	{%endif%}
+{%endif%}
+<!-- <div id="pale">
+	<div class="bank" style="background-color: #144455"></div>
+	<div class="bank" style="background-color: #144e11"></div>
+	<div class="bank" style="background-color: #5478ea"></div>
+	<div class="bank" style="background-color: #144455"></div>
+	<div class="bank" style="background-color: #FF3311"></div>
+</div>
+<style type="text/css">
+	#pale {
+		height: 300px;
+		width: 500px;
+	}
+	.bank {
+		width: 20%;
+		position: relative;
+		float: left;
+	}
+</style>
+<hr>
+<form enctype="multipart/form-data" name="form3" method="POST" action="/option/">
+{% csrf_token %}
+
+<input type="file" name="image"><br>
+<select name="background_type">
+	<option value="2">渐变</option>
+	<option value="3">复杂</option>
+</select>
+<div id="main_wrapper" class="">
+		<div class="row colors" id="colors">
+			<div class="col-md-15 color_wrapper">
+				<div id="color1" class="color" style="background-color: #1455b7" data-id="0" data-color="#1455b7" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			<div class="col-md-15 color_wrapper">
+				<div id="color2" class="color" style="background-color: #5a84a7" data-id="1" data-color="#5a84a7" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			<div class="col-md-15 color_wrapper">
+				<div id="color3" class="color" style="background-color: #3d86b0" data-id="2" data-color="#3d86b0" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			<div class="col-md-15 color_wrapper">
+				<div id="color4" class="color" style="background-color: #b1e1c7" data-id="3" data-color="#b1e1c7" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			<div class="col-md-15 color_wrapper">
+				<div id="color5" class="color" style="background-color: #e6b04c" data-id="4" data-color="#e6b04c" data-locked="false"><div class="swipe"></div></div>
+				
+			</div>
+			
+		</div>
+	</div>
+       
+            <div class="picker" id="picker1"></div>
+            <div class="slider" id="slider1"></div>
+
+            <div class="picker" id="picker2"></div>
+            <div class="slider" id="slider2"></div>
+
+            <div class="picker" id="picker3"></div>
+            <div class="slider" id="slider3"></div>
+
+            <div class="picker" id="picker4"></div>
+            <div class="slider" id="slider4"></div>
+
+            <div class="picker" id="picker5"></div>
+            <div class="slider" id="slider5"></div>
+
+            <script type="text/javascript">
+            
+              ColorPicker(
+
+                document.getElementById('slider1'),
+                document.getElementById('picker1'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color1').style.backgroundColor = hex;        // #HEX
+                });
+
+              ColorPicker(
+
+                document.getElementById('slider2'),
+                document.getElementById('picker2'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color2').style.backgroundColor = hex;        // #HEX
+                });
+
+              ColorPicker(
+
+                document.getElementById('slider3'),
+                document.getElementById('picker3'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color3').style.backgroundColor = hex;        // #HEX
+                });
+
+              ColorPicker(
+
+                document.getElementById('slider4'),
+                document.getElementById('picker4'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color4').style.backgroundColor = hex;        // #HEX
+                });
+
+              ColorPicker(
+
+                document.getElementById('slider5'),
+                document.getElementById('picker5'),
+
+                function(hex, hsv, rgb) {
+                  console.log(hsv.h, hsv.s, hsv.v);         // [0-359], [0-1], [0-1]
+                  console.log(rgb.r, rgb.g, rgb.b);         // [0-255], [0-255], [0-255]
+                  
+                  document.getElementById('color5').style.backgroundColor = hex;        // #HEX
+                });
+              // console.log('palettes' ,palettes)
+              // document.getElementById('palettes').value = palettes;
+
+            </script>
+            <input type="hidden" id="palettes" name="palettes">
+             <script type="text/javascript">
+          var s = [];
+          for(var i = 1 ; i < 6 ; i++)
+          {
+          	console.log('color'+i)
+          	var rgb = document.getElementById('color'+i).style.backgroundColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+          	s.push([rgb[1] , rgb[2] , rgb[3]]);
+          }
+          	document.getElementById('palettes').value = s;
+          </script>
+
+          <input type="submit" name="option">
+
+            
+</form>
+
+<hr>
+<form></form> -->
+</body>
+</html>
