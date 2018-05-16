@@ -3,6 +3,7 @@
 *.dat
 *.ttf
 *.sqlite*
+*.bak
 case/
 *.pyc
 recolor/*.json
